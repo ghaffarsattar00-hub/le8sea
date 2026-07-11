@@ -1,71 +1,59 @@
-<!DOCTYPE html>
-<html lang="en" class="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Le8sea - Let's see what's next.</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-    
-    <style>
-        body {
-            font-family: 'Outfit', sans-serif;
-            background-color: #09090b; 
-            color: #ffffff;
-        }
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #09090b; }
-        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
-    </style>
-</head>
-<body class="antialiased selection:bg-purple-500 selection:text-white">
-
-    <nav class="fixed w-full z-50 bg-[#09090b]/80 backdrop-blur-md border-b border-white/10">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="/" class="text-3xl font-extrabold tracking-tighter hover:scale-105 transition-transform">
-                le<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">8</span>sea.
-            </a>
+<x-layout>
+    <main class="pb-16 px-6">
+        <div class="max-w-4xl mx-auto text-center mt-12">
+            <div class="inline-block border border-white/10 bg-white/5 rounded-full px-4 py-1.5 mb-6 backdrop-blur-sm">
+                <span class="text-xs font-semibold text-cyan-400 uppercase tracking-widest flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    AI-Powered Reviews
+                </span>
+            </div>
             
-            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-400">
-                <a href="/" class="hover:text-white transition-colors">Movies</a>
-                <a href="{{ route('tv.index') }}" class="hover:text-white transition-colors">TV Shows</a>
-                <a href="{{ route('books.index') }}" class="hover:text-white transition-colors">Books</a>
-                <!-- Yahan humne Music ka link active kar diya hai -->
-                <a href="{{ route('music.index') }}" class="hover:text-white transition-colors">Music</a>
-                
-                <form action="{{ route('movie.search') }}" method="GET" class="relative group ml-4">
-                    <input type="text" name="query" placeholder="Search movies/tv..." required class="bg-[#18181b] text-white px-4 py-2 rounded-full text-sm border border-white/10 focus:outline-none focus:border-cyan-500 transition-all w-48 focus:w-64 placeholder-gray-500">
-                    <button type="submit" class="absolute right-3 top-2 text-gray-400 hover:text-cyan-400 transition-colors">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                    </button>
-                </form>
-            </div>
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight">
+                Don't just watch. <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-gray-100">Experience it.</span>
+            </h1>
+            
+            <p class="text-lg md:text-xl text-gray-400 mb-10 max-w-2xl mx-auto">
+                Read what the world thinks about your next favorite movie, book, or song. AI-summarized insights, zero spoilers.
+            </p>
 
-            <div class="flex items-center space-x-4">
-                @auth
-                    <!-- Yahan humne text ko <a> tag mein badal kar dashboard ka link de diya hai -->
-                    <a href="{{ route('dashboard') }}" class="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 hover:opacity-80 transition-opacity">
-                        Hi, {{ Auth::user()->name }}
-                    </a>
-                    <form method="POST" action="{{ route('logout') }}" class="inline">
-                        @csrf
-                        <button type="submit" class="bg-white/10 text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-white/20 transition-colors">Log Out</button>
-                    </form>
-                @else
-                    <a href="{{ route('login') }}" class="text-sm font-medium text-gray-400 hover:text-white">Log in</a>
-                    <a href="{{ route('register') }}" class="bg-white text-black px-5 py-2 rounded-full text-sm font-semibold hover:scale-105 transition-transform duration-200">Sign Up</a>
-                @endauth
-            </div>
+            <form action="{{ route('movie.search') }}" method="GET" class="relative max-w-2xl mx-auto group">
+                <div class="absolute -inset-1 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                <input type="text" name="query" placeholder="Search for a movie, book, or artist..." required class="relative w-full bg-[#18181b] text-white px-8 py-5 rounded-full text-lg border border-white/10 focus:outline-none focus:border-cyan-500 transition-colors shadow-2xl placeholder-gray-500">
+                <button type="submit" class="absolute right-3 top-3 bg-white text-black p-2.5 rounded-full hover:scale-110 transition-transform">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </button>
+            </form>
         </div>
-    </nav>
+    </main>
 
-    <div class="pt-24"> 
-        {{ $slot }}
-    </div>
+    <section class="max-w-7xl mx-auto px-6 py-12">
+        <h2 class="text-2xl font-bold mb-8 flex items-center gap-2">
+            Trending This Week <span class="text-xl">🔥</span>
+        </h2>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            
+            @foreach($trendingMovies as $movie)
+            <a href="/movie/{{ $movie['id'] }}" class="group cursor-pointer block">
+                <div class="relative overflow-hidden rounded-2xl aspect-[2/3] bg-gray-800">
+                    <img src="https://image.tmdb.org/t/p/w500{{ $movie['poster_path'] }}" alt="{{ $movie['title'] ?? $movie['name'] }}" class="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500 opacity-80 group-hover:opacity-100">
+                    
+                    <div class="absolute bottom-0 w-full bg-gradient-to-t from-black via-black/80 to-transparent p-4">
+                        <div class="flex items-center gap-1 text-yellow-400 text-sm font-bold mb-1">
+                            ★ {{ number_format($movie['vote_average'], 1) }}
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 class="mt-3 font-semibold text-lg truncate">{{ $movie['title'] ?? $movie['name'] }}</h3>
+                
+                <p class="text-sm text-gray-500">
+                    {{ isset($movie['release_date']) ? \Carbon\Carbon::parse($movie['release_date'])->format('Y') : (isset($movie['first_air_date']) ? \Carbon\Carbon::parse($movie['first_air_date'])->format('Y') : 'N/A') }} • Movie
+                </p>
+            </a>
+            @endforeach
 
-</body>
-</html>
+        </div>
+    </section>
+</x-layout> 
