@@ -1,5 +1,5 @@
 # PHP ka official version use kar rahe hain
-FROM php:8.2-cli
+FROM php:8.4-cli
 
 # Zaroori softwares (Node, NPM, Zip, SQLite) install kar rahe hain
 RUN apt-get update && apt-get install -y git unzip sqlite3 libsqlite3-dev nodejs npm
