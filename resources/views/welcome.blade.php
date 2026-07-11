@@ -1,59 +1,91 @@
 <x-layout>
-    <main class="pb-16 px-6">
-        <div class="max-w-4xl mx-auto text-center mt-12">
-            <div class="inline-block border border-white/10 bg-white/5 rounded-full px-4 py-1.5 mb-6 backdrop-blur-sm">
-                <span class="text-xs font-semibold text-cyan-400 uppercase tracking-widest flex items-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                    AI-Powered Reviews
-                </span>
-            </div>
-            
-            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight">
-                Don't just watch. <br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-gray-100">Experience it.</span>
-            </h1>
-            
-            <p class="text-lg md:text-xl text-gray-400 mb-10 max-w-2xl mx-auto">
-                Read what the world thinks about your next favorite movie, book, or song. AI-summarized insights, zero spoilers.
-            </p>
+    <nav x-data="{ open: false }" class="bg-[#18181b] border-b border-white/10 relative z-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-center h-20">
+                <div class="shrink-0 flex items-center">
+                    <a href="/" class="text-2xl font-extrabold text-white tracking-tighter">
+                        Rev<span class="text-cyan-500">AI</span>.
+                    </a>
+                </div>
 
-            <form action="{{ route('movie.search') }}" method="GET" class="relative max-w-2xl mx-auto group">
-                <div class="absolute -inset-1 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                <input type="text" name="query" placeholder="Search for a movie, book, or artist..." required class="relative w-full bg-[#18181b] text-white px-8 py-5 rounded-full text-lg border border-white/10 focus:outline-none focus:border-cyan-500 transition-colors shadow-2xl placeholder-gray-500">
-                <button type="submit" class="absolute right-3 top-3 bg-white text-black p-2.5 rounded-full hover:scale-110 transition-transform">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                </button>
-            </form>
-        </div>
-    </main>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#" class="text-gray-300 hover:text-white transition-colors text-sm font-medium">Movies</a>
+                    <a href="#" class="text-gray-300 hover:text-white transition-colors text-sm font-medium">TV Shows</a>
+                    <a href="#" class="text-gray-300 hover:text-white transition-colors text-sm font-medium">Books</a>
+                    <a href="#" class="px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-full text-sm font-medium transition-colors border border-white/10 backdrop-blur-sm">
+                        Sign In
+                    </a>
+                </div>
 
-    <section class="max-w-7xl mx-auto px-6 py-12">
-        <h2 class="text-2xl font-bold mb-8 flex items-center gap-2">
-            Trending This Week <span class="text-xl">🔥</span>
-        </h2>
-        
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
-            
-            @foreach($trendingMovies as $movie)
-            <a href="/movie/{{ $movie['id'] }}" class="group cursor-pointer block">
-                <div class="relative overflow-hidden rounded-2xl aspect-[2/3] bg-gray-800">
-                    <img src="https://image.tmdb.org/t/p/w500{{ $movie['poster_path'] }}" alt="{{ $movie['title'] ?? $movie['name'] }}" class="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500 opacity-80 group-hover:opacity-100">
-                    
-                    <div class="absolute bottom-0 w-full bg-gradient-to-t from-black via-black/80 to-transparent p-4">
-                        <div class="flex items-center gap-1 text-yellow-400 text-sm font-bold mb-1">
-                            ★ {{ number_format($movie['vote_average'], 1) }}
-                        </div>
-                    </div>
-                </div>
-                
-                <h3 class="mt-3 font-semibold text-lg truncate">{{ $movie['title'] ?? $movie['name'] }}</h3>
-                
-                <p class="text-sm text-gray-500">
-                    {{ isset($movie['release_date']) ? \Carbon\Carbon::parse($movie['release_date'])->format('Y') : (isset($movie['first_air_date']) ? \Carbon\Carbon::parse($movie['first_air_date'])->format('Y') : 'N/A') }} • Movie
-                </p>
-            </a>
-            @endforeach
+                <div class="flex items-center md:hidden">
+                    <button @click="open = ! open" class="text-gray-400 hover:text-white focus:outline-none p-2">
+                        <svg class="h-7 w-7" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                            <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
 
-        </div>
-    </section>
-</x-layout> 
+        <div x-show="open" 
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0 -translate-y-2"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-150"
+             x-transition:leave-start="opacity-100 translate-y-0"
+             x-transition:leave-end="opacity-0 -translate-y-2"
+             class="md:hidden absolute top-20 left-0 w-full bg-[#18181b]/95 backdrop-blur-xl border-b border-white/10"
+             style="display: none;">
+            <div class="px-6 pt-2 pb-6 space-y-2 flex flex-col text-center">
+                <a href="#" class="text-gray-300 hover:text-white hover:bg-white/5 block px-3 py-3 rounded-xl text-base font-medium transition-colors">Movies</a>
+                <a href="#" class="text-gray-300 hover:text-white hover:bg-white/5 block px-3 py-3 rounded-xl text-base font-medium transition-colors">TV Shows</a>
+                <a href="#" class="text-gray-300 hover:text-white hover:bg-white/5 block px-3 py-3 rounded-xl text-base font-medium transition-colors">Books</a>
+                <div class="pt-4 mt-2 border-t border-white/10">
+                    <a href="#" class="inline-block w-full px-5 py-3 bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 rounded-xl text-base font-medium transition-colors">
+                        Sign In
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pb-16 px-6">
+        <div class="max-w-4xl mx-auto text-center mt-12">
+        <div class="max-w-4xl mx-auto text-center mt-12 md:mt-24">
+            <div class="inline-block border border-white/10 bg-white/5 rounded-full px-4 py-1.5 mb-6 backdrop-blur-sm">
+                <span class="text-xs font-semibold text-cyan-400 uppercase tracking-widest flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    AI-Powered Reviews
+                </span>
+            </div>
+
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight">
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight text-white">
+                Don't just watch. <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-gray-100">Experience it.</span>
+            </h1>
+@@ -27,13 +78,12 @@
+        </div>
+    </main>
+
+    <section class="max-w-7xl mx-auto px-6 py-12">
+    <section class="max-w-7xl mx-auto px-6 py-12 text-white">
+        <h2 class="text-2xl font-bold mb-8 flex items-center gap-2">
+            Trending This Week <span class="text-xl">🔥</span>
+        </h2>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            
+            @foreach($trendingMovies as $movie)
+            <a href="/movie/{{ $movie['id'] }}" class="group cursor-pointer block">
+                <div class="relative overflow-hidden rounded-2xl aspect-[2/3] bg-gray-800">
+@@ -53,7 +103,6 @@
+                </p>
+            </a>
+            @endforeach
+
+        </div>
+    </section>
+</x-layout>
+</x-layout>
