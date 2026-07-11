@@ -24,8 +24,9 @@
 </head>
 <body class="antialiased selection:bg-purple-500 selection:text-white">
 
-    <nav class="fixed w-full z-50 bg-[#09090b]/80 backdrop-blur-md border-b border-white/10">
+    <nav class="fixed w-full z-50 bg-[#09090b]/90 backdrop-blur-md border-b border-white/10">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            
             <a href="/" class="text-3xl font-extrabold tracking-tighter hover:scale-105 transition-transform">
                 le<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">8</span>sea.
             </a>
@@ -34,7 +35,6 @@
                 <a href="/" class="hover:text-white transition-colors">Movies</a>
                 <a href="{{ route('tv.index') }}" class="hover:text-white transition-colors">TV Shows</a>
                 <a href="{{ route('books.index') }}" class="hover:text-white transition-colors">Books</a>
-                <!-- Yahan humne Music ka link active kar diya hai -->
                 <a href="{{ route('music.index') }}" class="hover:text-white transition-colors">Music</a>
                 
                 <form action="{{ route('movie.search') }}" method="GET" class="relative group ml-4">
@@ -45,9 +45,8 @@
                 </form>
             </div>
 
-            <div class="flex items-center space-x-4">
+            <div class="hidden md:flex items-center space-x-4">
                 @auth
-                    <!-- Yahan humne text ko <a> tag mein badal kar dashboard ka link de diya hai -->
                     <a href="{{ route('dashboard') }}" class="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 hover:opacity-80 transition-opacity">
                         Hi, {{ Auth::user()->name }}
                     </a>
@@ -60,6 +59,42 @@
                     <a href="{{ route('register') }}" class="bg-white text-black px-5 py-2 rounded-full text-sm font-semibold hover:scale-105 transition-transform duration-200">Sign Up</a>
                 @endauth
             </div>
+
+            <div class="md:hidden flex items-center">
+                <button id="mobile-btn" class="text-gray-400 hover:text-white focus:outline-none">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-[#09090b]/95 backdrop-blur-xl border-b border-white/10">
+            <div class="px-6 py-4 flex flex-col space-y-4">
+                <a href="/" class="text-lg font-medium text-gray-300 hover:text-white">Movies</a>
+                <a href="{{ route('tv.index') }}" class="text-lg font-medium text-gray-300 hover:text-white">TV Shows</a>
+                <a href="{{ route('books.index') }}" class="text-lg font-medium text-gray-300 hover:text-white">Books</a>
+                <a href="{{ route('music.index') }}" class="text-lg font-medium text-gray-300 hover:text-white">Music</a>
+                
+                <form action="{{ route('movie.search') }}" method="GET" class="relative pt-2">
+                    <input type="text" name="query" placeholder="Search..." required class="w-full bg-[#18181b] text-white px-4 py-3 rounded-xl border border-white/10 focus:outline-none focus:border-cyan-500 placeholder-gray-500">
+                </form>
+
+                <hr class="border-white/10 my-2">
+
+                @auth
+                    <a href="{{ route('dashboard') }}" class="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">
+                        Hi, {{ Auth::user()->name }}
+                    </a>
+                    <form method="POST" action="{{ route('logout') }}" class="pb-2">
+                        @csrf
+                        <button type="submit" class="w-full text-left text-lg font-medium text-gray-300 hover:text-white">Log Out</button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="text-lg font-medium text-gray-300 hover:text-white">Log in</a>
+                    <a href="{{ route('register') }}" class="bg-white text-black py-3 rounded-xl text-center font-bold mt-2 hover:bg-gray-200">Sign Up</a>
+                @endauth
+            </div>
         </div>
     </nav>
 
@@ -67,5 +102,13 @@
         {{ $slot }}
     </div>
 
+    <script>
+        const btn = document.getElementById('mobile-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+    </script>
 </body>
 </html>
