@@ -94,16 +94,16 @@
                     </h3>
                     
                     <div class="relative z-10">
-                        @if($reviews->count() > 2)
+                        @if($reviews->count() > 0)
                             <p class="text-gray-300 text-sm leading-relaxed mb-4">
-                                Based on {{ $reviews->count() }} user reviews, the audience generally praises the pacing and performances. The visual effects are a standout, though some users found the third act slightly predictable. Overall, it's a solid watch!
+                                {{ Cache::get('ai_verdict_movie_' . $movie['id'], 'AI is currently analyzing the latest reviews. Submit a new review to refresh the verdict!') }}
                             </p>
-                            <div class="flex items-center gap-2 text-xs font-semibold text-cyan-400 bg-cyan-400/10 px-3 py-1.5 rounded-full inline-block">
+                            <div class="flex items-center gap-2 text-xs font-semibold text-cyan-400 bg-cyan-400/10 px-3 py-1.5 rounded-full inline-block w-max">
                                 🤖 AI Generated Summary
                             </div>
                         @else
                             <p class="text-gray-500 text-sm leading-relaxed italic">
-                                Not enough reviews yet for the AI to generate a verdict. We need at least 3 reviews to synthesize an opinion!
+                                Not enough reviews yet for the AI to generate a verdict. Be the first to drop a review and let the AI synthesize an opinion!
                             </p>
                         @endif
                     </div>
