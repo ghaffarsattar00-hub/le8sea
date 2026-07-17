@@ -90,16 +90,16 @@
                     </h3>
                     
                     <div class="relative z-10">
-                        @if($reviews->count() >= 3)
+                        @if($reviews->count() > 0)
                             <p class="text-gray-300 text-sm leading-relaxed mb-4">
-                                {{ $aiVerdict }}
+                                {{ Cache::get('ai_verdict_music_' . $musicId, 'AI is currently analyzing the vibe of the latest reviews. Drop a new review to refresh the verdict!') }}
                             </p>
-                            <div class="flex items-center gap-2 text-xs font-semibold text-rose-400 bg-rose-400/10 px-3 py-1.5 rounded-full inline-block">
+                            <div class="flex items-center gap-2 text-xs font-semibold text-rose-400 bg-rose-400/10 px-3 py-1.5 rounded-full inline-block w-max">
                                 🤖 AI Generated Summary
                             </div>
                         @else
                             <p class="text-gray-500 text-sm leading-relaxed italic">
-                                Not enough reviews yet for the AI to generate a verdict. We need at least 3 reviews!
+                                Not enough reviews yet for the AI to analyze the vibe. Drop the first review!
                             </p>
                         @endif
                     </div>
